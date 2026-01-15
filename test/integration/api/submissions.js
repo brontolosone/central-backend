@@ -514,11 +514,11 @@ describe('api: /submission', () => {
               .then(({ headers, body }) => {
                 headers['content-type'].should.equal('video/mp4');
                 headers['content-disposition'].should.equal('attachment; filename="my_file1.mp4"; filename*=UTF-8\'\'my_file1.mp4');
-                headers['etag'].should.equal('"75f5701abfe7de8202cecaa0ca753f29"'); // eslint-disable-line dot-notation
+                headers['etag'].should.equal('W/"75f5701abfe7de8202cecaa0ca753f29"'); // eslint-disable-line dot-notation
                 body.toString('utf8').should.equal('this is test file one');
               }))
             .then(() => asAlice.get('/v1/projects/1/forms/binaryType/submissions/both/attachments/my_file1.mp4')
-              .set('If-None-Match', '"75f5701abfe7de8202cecaa0ca753f29"')
+              .set('If-None-Match', 'W/"75f5701abfe7de8202cecaa0ca753f29"')
               .expect(304))))));
 
     it('should successfully save additionally POSTed attachment binary data', testService((service) =>
@@ -542,11 +542,11 @@ describe('api: /submission', () => {
                 .then(({ headers, body }) => {
                   headers['content-type'].should.equal('image/jpeg');
                   headers['content-disposition'].should.equal('attachment; filename="here_is_file2.jpg"; filename*=UTF-8\'\'here_is_file2.jpg');
-                  headers['etag'].should.equal('"25bdb03b7942881c279788575997efba"'); // eslint-disable-line dot-notation
+                  headers['etag'].should.equal('W/"25bdb03b7942881c279788575997efba"'); // eslint-disable-line dot-notation
                   body.toString('utf8').should.equal('this is test file two');
                 }))
               .then(() => asAlice.get('/v1/projects/1/forms/binaryType/submissions/both/attachments/here_is_file2.jpg')
-                .set('If-None-Match', '"25bdb03b7942881c279788575997efba"')
+                .set('If-None-Match', 'W/"25bdb03b7942881c279788575997efba"')
                 .expect(304)))))));
 
     it('should successfully save additionally POSTed attachment binary data with s3 enabled', testService((service, { Blobs }) => {
@@ -571,11 +571,11 @@ describe('api: /submission', () => {
                 .then(({ headers, body }) => {
                   headers['content-type'].should.equal('image/jpeg');
                   headers['content-disposition'].should.equal('attachment; filename="here_is_file2.jpg"; filename*=UTF-8\'\'here_is_file2.jpg');
-                  headers['etag'].should.equal('"25bdb03b7942881c279788575997efba"'); // eslint-disable-line dot-notation
+                  headers['etag'].should.equal('W/"25bdb03b7942881c279788575997efba"'); // eslint-disable-line dot-notation
                   body.toString('utf8').should.equal('this is test file two');
                 }))
               .then(() => asAlice.get('/v1/projects/1/forms/binaryType/submissions/both/attachments/here_is_file2.jpg')
-                .set('If-None-Match', '"25bdb03b7942881c279788575997efba"')
+                .set('If-None-Match', 'W/"25bdb03b7942881c279788575997efba"')
                 .expect(304))
               .then(() => Blobs.s3UploadPending()
                 .then(() => asAlice.get('/v1/projects/1/forms/binaryType/submissions/both/attachments/here_is_file2.jpg')
@@ -591,7 +591,7 @@ describe('api: /submission', () => {
                     body.should.deepEqual({}); // not sure why
                   }))
                 .then(() => asAlice.get('/v1/projects/1/forms/binaryType/submissions/both/attachments/here_is_file2.jpg')
-                  .set('If-None-Match', '"25bdb03b7942881c279788575997efba"')
+                  .set('If-None-Match', 'W/"25bdb03b7942881c279788575997efba"')
                   .expect(307)
                   .then(({ headers, body }) => {
                     // TODO content-type should not be present at all, but response.removeHeader() does not seem to have an effect

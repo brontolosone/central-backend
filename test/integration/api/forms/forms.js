@@ -767,11 +767,11 @@ describe('api: /projects/:id/forms (create, read, update)', () => {
               .then(({ headers, body }) => {
                 headers['content-type'].should.equal('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
                 headers['content-disposition'].should.equal('attachment; filename="simple2.xlsx"; filename*=UTF-8\'\'simple2.xlsx');
-                headers['etag'].should.equal('"30fdb0e9115ea7ca6702573f521814d1"'); // eslint-disable-line dot-notation
+                headers['etag'].should.equal('W/"30fdb0e9115ea7ca6702573f521814d1"'); // eslint-disable-line dot-notation
                 Buffer.compare(input, body).should.equal(0);
               }))
             .then(() => asAlice.get('/v1/projects/1/forms/simple2.xlsx')
-              .set('If-None-Match', '"30fdb0e9115ea7ca6702573f521814d1"')
+              .set('If-None-Match', 'W/"30fdb0e9115ea7ca6702573f521814d1"')
               .expect(304)));
       }));
 
@@ -784,7 +784,7 @@ describe('api: /projects/:id/forms (create, read, update)', () => {
             .set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             .expect(200)
             .then(() => asAlice.get('/v1/projects/1/forms/simple2.xlsx')
-              .set('If-None-Match', '"30fdb0e9115ea7ca6702573f521814d1"')
+              .set('If-None-Match', 'W/"30fdb0e9115ea7ca6702573f521814d1"')
               .expect(304))
             .then(() => Blobs.s3UploadPending()
               .then(() => {
@@ -797,7 +797,7 @@ describe('api: /projects/:id/forms (create, read, update)', () => {
                 headers.location.should.equal('s3://mock/30fdb0e9115ea7ca6702573f521814d1/9ebd53024b8560ffd0b84763481ed24159ca600f/simple2.xlsx?contentType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
               }))
             .then(() => asAlice.get('/v1/projects/1/forms/simple2.xlsx')
-              .set('If-None-Match', '"30fdb0e9115ea7ca6702573f521814d1"')
+              .set('If-None-Match', 'W/"30fdb0e9115ea7ca6702573f521814d1"')
               .expect(307)
               .then(({ headers }) => {
                 headers.location.should.equal('s3://mock/30fdb0e9115ea7ca6702573f521814d1/9ebd53024b8560ffd0b84763481ed24159ca600f/simple2.xlsx?contentType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -821,11 +821,11 @@ describe('api: /projects/:id/forms (create, read, update)', () => {
               .then(({ headers, body }) => {
                 headers['content-type'].should.equal('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
                 headers['content-disposition'].should.equal('attachment; filename="simple2.xlsx"; filename*=UTF-8\'\'simple2.xlsx');
-                headers['etag'].should.equal('"30fdb0e9115ea7ca6702573f521814d1"'); // eslint-disable-line dot-notation
+                headers['etag'].should.equal('W/"30fdb0e9115ea7ca6702573f521814d1"'); // eslint-disable-line dot-notation
                 Buffer.compare(input, body).should.equal(0);
               }))
             .then(() => asAlice.get('/v1/projects/1/forms/simple2/draft.xlsx')
-              .set('If-None-Match', '"30fdb0e9115ea7ca6702573f521814d1"')
+              .set('If-None-Match', 'W/"30fdb0e9115ea7ca6702573f521814d1"')
               .expect(304)));
       }));
 
@@ -842,7 +842,7 @@ describe('api: /projects/:id/forms (create, read, update)', () => {
               .set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
               .expect(200))
             .then(() => asAlice.get('/v1/projects/1/forms/simple2/draft.xlsx')
-              .set('If-None-Match', '"30fdb0e9115ea7ca6702573f521814d1"')
+              .set('If-None-Match', 'W/"30fdb0e9115ea7ca6702573f521814d1"')
               .expect(304))
             .then(() => Blobs.s3UploadPending()
               .then(() => {
@@ -855,7 +855,7 @@ describe('api: /projects/:id/forms (create, read, update)', () => {
                 headers.location.should.equal('s3://mock/30fdb0e9115ea7ca6702573f521814d1/9ebd53024b8560ffd0b84763481ed24159ca600f/simple2.xlsx?contentType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
               }))
             .then(() => asAlice.get('/v1/projects/1/forms/simple2/draft.xlsx')
-              .set('If-None-Match', '"30fdb0e9115ea7ca6702573f521814d1"')
+              .set('If-None-Match', 'W/"30fdb0e9115ea7ca6702573f521814d1"')
               .expect(307)
               .then(({ headers }) => {
                 headers.location.should.equal('s3://mock/30fdb0e9115ea7ca6702573f521814d1/9ebd53024b8560ffd0b84763481ed24159ca600f/simple2.xlsx?contentType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -912,11 +912,11 @@ describe('api: /projects/:id/forms (create, read, update)', () => {
             .then(() => asAlice.get('/v1/projects/1/forms/simple2.xls')
               .expect(200)
               .then(({ headers }) => {
-                headers['etag'].should.equal('"30fdb0e9115ea7ca6702573f521814d1"'); // eslint-disable-line dot-notation
+                headers['etag'].should.equal('W/"30fdb0e9115ea7ca6702573f521814d1"'); // eslint-disable-line dot-notation
               }))
             .then(() => asAlice.get('/v1/projects/1/forms/simple2.xlsx').expect(404))
             .then(() => asAlice.get('/v1/projects/1/forms/simple2.xls')
-              .set('If-None-Match', '"30fdb0e9115ea7ca6702573f521814d1"')
+              .set('If-None-Match', 'W/"30fdb0e9115ea7ca6702573f521814d1"')
               .expect(304)))));
     });
 
