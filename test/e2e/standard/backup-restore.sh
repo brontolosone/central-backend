@@ -18,9 +18,8 @@ backup() {
   backupDir="$(mktemp --directory)"
   cd "$backupDir"
   
-  target="backup.pgdump.enc"
-  # creds="$(echo -n 'x@example.com:secret1234' | base64)"
-  creds="$(echo -n 'testodk@gavagai.eu:aapnootmies' | base64)"
+  target="backup.pgdump.enc.bin"
+  creds="$(echo -n 'x@example.com:secret1234' | base64)"
   wget \
       --header "X-Forwarded-Proto: https" \
       --header "Content-Type: $contentType" \
